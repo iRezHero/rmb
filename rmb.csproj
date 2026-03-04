@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>irezhero.Database.Utilities</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Giancarlo Maniscalco</Authors>
+    <Company>irezhero</Company>
+    <Description>
+      A Laravel-inspired Route Model Binder for ASP.NET Core. Automatically resolves database
+      entities from route parameters, mapping tags like {entity} directly to your controller action
+      parameters using [FromRoute]. Eliminates repetitive lookup code and streamlines your API
+      controllers.
+    </Description>
+    <PackageTags>aspnetcore;dotnet;middleware</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+</Project>
