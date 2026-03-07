@@ -17,6 +17,20 @@ namespace EntityModelBinder
         /// This is useful when you want to implement custom error handling logic in your controller actions, such as returning a different status code or a custom error response format.
         /// </remarks>
         public bool SuppressModelStateInvalidFilter { get; set; } = false;
+        /// <summary>
+        /// Configure the default database primary key column name.
+        /// </summary>
+        /// <remarks>
+        /// If your database uses a different primary key column name than "Id", you can set it here. The model binder will assume this column name to query the database for the entity.
+        /// </remarks>
+        public string DefaultPrimaryKeyColumnName { get; set; } = "Id";
+        /// <summary>
+        /// Defines the default type used for primary keys.
+        /// </summary>
+        /// <remarks>The default value is <see cref="EntityKeyType.Int"/>, which specifies that integer primary keys are
+        /// used unless another type is specified.
+        /// </remarks>
+        public EntityKeyType DefaultPrimaryKeyType { get; set; } = EntityKeyType.Int;
         public Action<MvcOptions>? ControllerConfiguration { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 # EntityModelBinder 🚀
+
 A Laravel-inspired Route Model Binder for ASP.NET Core. Automatically resolves database entities from route parameters, eliminating repetitive lookup code and streamlining your API controllers.
 
 <img height="300" alt="EntityModelBinder extended" src="https://github.com/user-attachments/assets/d59cf5e8-03f7-461a-83d4-98cae3294320" />
@@ -78,6 +79,11 @@ Supported types: `int`, `Guid`, `string` (slugs).
 public async Task<IActionResult> Show([FromRoute] int surveyId)
 {
     var survey = await _dbContext.Survey.FindAsync(surveyId);
+    if(survey == null)
+    {
+        return NotFound();
+    }
+    // other code...
     return Ok(survey);
 }
 
@@ -85,10 +91,15 @@ public async Task<IActionResult> Show([FromRoute] int surveyId)
 public async Task<IActionResult> Update([FromRoute] int surveyId, [FromBody] SurveyRequest request)
 {
     var survey = await _dbContext.Survey.FindAsync(surveyId);
+    if(survey == null)
+    {
+        return NotFound();
+    }
     survey.Name = request.name;
     survey.Json = request.jsonData;
     survey.UpdatedAt = DateTime.UtcNow;
     await _dbContext.SaveChangesAsync();
+    // other code...
     return Ok(new { id = survey.Id });
 }
 ```
@@ -99,18 +110,24 @@ public async Task<IActionResult> Update([FromRoute] int surveyId, [FromBody] Sur
 [HttpGet("{survey}")]
 public IActionResult Show([FromRoute] Survey survey)
 {
-    if (survey == null) return NotFound();
+    if (survey == null)
+    {
+        return NotFound();
+    }
+    // other code...
     return Ok(survey);
 }
 ```
 
-or in some cases
+or the shorthand
 
 ```C#
 [HttpGet("{survey}")]
 public IActionResult Show([FromRoute] Survey survey)
-    => Ok(survey);
+    => survey == null ? NotFound() : Ok(survey);
 ```
+
+this option is possible only if you have no business logic to apply before returning the entity
 
 **Adding a new resource**
 
@@ -183,4 +200,3 @@ c.CustomSchemaIds(type => type.ToString());
 MIT License - see [LICENSE](LICENSE) file for details.
 
 <img width="100" height="100" alt="icon" src="https://github.com/user-attachments/assets/39867b74-696e-4842-8057-6824d17fd9ca" />
-

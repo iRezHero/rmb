@@ -3,6 +3,7 @@
 
 using System.Linq.Expressions;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
@@ -44,7 +45,12 @@ namespace EntityModelBinder
                 return;
             }
 
-            var (columnName, keyType) = GetKeyInfo(bindingContext);
+            // Retrieve the EntityModelBinderOptions from the service provider
+            var entityModelBinderOptions = services.GetService<EntityModelBinderOptions>();
+            // Get the key column name and key type, either from the attribute or from the options
+            var (columnName, keyType) = GetKeyInfo(bindingContext,
+            entityModelBinderOptions?.DefaultPrimaryKeyColumnName ?? "Id",
+            entityModelBinderOptions?.DefaultPrimaryKeyType ?? EntityKeyType.Int);
 
             object keyValue;
             if (!TryConvertKeyValue(value, keyType, out keyValue, out var errorMessage))
@@ -57,7 +63,7 @@ namespace EntityModelBinder
 
             if (entity == null)
             {
-                bindingContext.Result = ModelBindingResult.Failed();
+                bindingContext.Result = ModelBindingResult.Success(null);
                 return;
             }
             // In this way we can suppress validation for the bound entity
@@ -69,7 +75,11 @@ namespace EntityModelBinder
             bindingContext.Result = ModelBindingResult.Success(entity);
         }
 
-        private static (string columnName, EntityKeyType keyType) GetKeyInfo(ModelBindingContext bindingContext)
+        private static (string columnName, EntityKeyType keyType) GetKeyInfo(
+            ModelBindingContext bindingContext,
+            string defaultKeyColumnName = "Id",
+            EntityKeyType entityKeyType = EntityKeyType.Int
+            )
         {
             var entityType = typeof(T);
             var actionContext = bindingContext.ActionContext;
@@ -103,14 +113,15 @@ namespace EntityModelBinder
             }
 
             var idProperty = entityType.GetProperties()
-                .FirstOrDefault(p => p.Name.Equals("Id", StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(p => p.Name.Equals(defaultKeyColumnName, StringComparison.OrdinalIgnoreCase));
 
             if (idProperty != null)
             {
-                return ("Id", DetermineKeyType(idProperty.PropertyType));
+                return (defaultKeyColumnName, DetermineKeyType(idProperty.PropertyType));
             }
 
-            return ("Id", EntityKeyType.Int);
+            // If no attribute and no property found, return the defaults
+            return (defaultKeyColumnName, entityKeyType);
         }
 
         private static EntityKeyType DetermineKeyType(Type propertyType)
@@ -172,7 +183,7 @@ namespace EntityModelBinder
     /// <summary>
     /// Defines the supported key types for entity binding.
     /// </summary>
-    internal enum EntityKeyType
+    public enum EntityKeyType
     {
         Int,
         Guid,

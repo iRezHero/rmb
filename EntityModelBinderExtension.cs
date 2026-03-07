@@ -22,6 +22,7 @@ namespace EntityModelBinder
             }
 
             services.AddScoped<DbContext, TDatabaseContext>();
+            services.AddScoped(typeof(EntityModelBinderOptions), _ => configuration);
 
             services.AddControllers(options =>
             {
