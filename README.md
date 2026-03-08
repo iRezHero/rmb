@@ -1,16 +1,19 @@
-# EntityModelBinder 🚀
+# EntityModelBinder
 
 ![AppIcon](https://github.com/user-attachments/assets/f2f6149d-eaf3-4f4a-90bf-b1882c1c410c)
-![Nuget](https://img.shields.io/badge/nuget-v1.0.3-blue?logo=nuget&link=https%3A%2F%2Fwww.nuget.org%2Fpackages%2FEntityModelBinder)
+[![Nuget](https://img.shields.io/badge/nuget-v1.0.3-blue?logo=nuget)](https://www.nuget.org/packages/EntityModelBinder)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/EntityModelBinder)](https://www.nuget.org/packages/EntityModelBinder)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/irezhero/route-entity-model-binder)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/irezhero/route-entity-model-binder/dotnet.yml)
-![MIT License](https://img.shields.io/badge/license-MIT-brigthgreen)
+[![.NET](https://github.com/iRezHero/route-entity-model-binder/actions/workflows/dotnet.yml/badge.svg)](https://github.com/iRezHero/route-entity-model-binder/actions/workflows/dotnet.yml)
+[![MIT License](https://img.shields.io/badge/license-MIT-brigthgreen)](https://github.com/iRezHero/route-entity-model-binder/blob/main/LICENSE)
 
-A Laravel-inspired Route Model Binder for ASP.NET Core. Automatically resolves database entities from route parameters, eliminating repetitive lookup code and streamlining your API controllers.
+### A Laravel-inspired Route Model Binder for ASP.NET Core.
+
+Automatically resolves database entities from route parameters, eliminating repetitive lookup code and streamlining your API controllers.
 
 ## Why EntityModelBinder?
 
-In RESTful APIs, you often need to fetch database entities based on route parameters. Instead of writing repetitive lookup code in every endpoint, EntityModelBinder automatically resolves the entity for you—exactly like Laravel's route-model binding.
+In RESTful APIs, you often need to fetch database entities based on route parameters. Instead of writing repetitive lookup code in every endpoint, EntityModelBinder automatically resolves the entity for you: exactly like **Laravel's route-model binding.**
 
 ## Installation
 
@@ -202,5 +205,7 @@ c.CustomSchemaIds(type => type.ToString());
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
+
+[![MIT License](https://img.shields.io/badge/license-MIT-brigthgreen)](https://github.com/iRezHero/route-entity-model-binder/blob/main/LICENSE)
 
 <img alt="EntityModelBinder extended" src="https://github.com/user-attachments/assets/d59cf5e8-03f7-461a-83d4-98cae3294320" />
